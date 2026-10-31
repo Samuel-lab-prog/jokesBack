@@ -20,10 +20,13 @@ Para rodar API e PostgreSQL localmente em containers, use `docker compose up --b
 | POST | `/api/auth/register` | Público | Cadastro (`name`, `email`, `password`) |
 | POST | `/api/auth/login` | Público | Login (`email`, `password`) |
 | GET | `/api/auth/me` | Token | Usuário atual |
-| POST | `/api/jokes/generate` | Público | Gera e salva piada; associa ao usuário se houver token |
-| GET | `/api/jokes/history` | Token | Histórico pessoal |
+| POST | `/api/jokes/generate` | Público | Gera uma piada sem salvar, para dar espaço à edição |
+| POST | `/api/jokes` | Token | Salva uma piada editada no PostgreSQL |
+| GET | `/api/jokes/history` | Token | Lista as piadas salvas pela conta |
+| PATCH | `/api/jokes/:id` | Token | Edita uma piada do próprio mural |
+| DELETE | `/api/jokes/:id` | Token | Exclui uma piada do próprio mural |
 
-As respostas de erro usam JSON no formato `{ "error": "..." }`. O login usa JWT com validade de sete dias.
+As respostas de erro usam JSON no formato `{ "error": "..." }`. O login usa JWT com validade de sete dias. O CRUD completo do mural é separado da geração: gerar não grava nada até a pessoa salvar.
 
 ## Stack e estrutura
 
