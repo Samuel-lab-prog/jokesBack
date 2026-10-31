@@ -19,6 +19,7 @@ ENV NODE_ENV=production
 COPY package.json bun.lock ./
 RUN bun install --production --frozen-lockfile
 COPY prisma ./prisma
+RUN bun run db:generate
 COPY --from=build /app/dist ./dist
 
 EXPOSE 3000
