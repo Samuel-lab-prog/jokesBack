@@ -3,13 +3,20 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { pinoHttp } from 'pino-http';
 import { rateLimit } from 'express-rate-limit';
+import swaggerUi from 'swagger-ui-express';
 import { env } from './config/env.js';
+import { openApiDocument } from './docs/openapi.js';
 import { authRouter } from './modules/auth/auth.routes.js';
 import { jokesRouter } from './modules/jokes/jokes.routes.js';
 import { errorHandler } from './middleware/error-handler.js';
 
 export const app = express();
 app.disable('x-powered-by');
+app.get('/docs/openapi.json', (_req, res) => res.json(openApiDocument));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApiDocument, {
+  customSiteTitle: 'Piada de Deploy API — documentação',
+  customCss: '.swagger-ui .topbar { background-color: #20231d; } .swagger-ui .topbar-wrapper .link { visibility: hidden; }',
+}));
 app.use(helmet());
 app.use(cors({
   origin: (origin, callback) => {

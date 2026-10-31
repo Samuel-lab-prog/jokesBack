@@ -14,6 +14,9 @@ Para rodar API e PostgreSQL localmente em containers, use `docker compose up --b
 
 ## Rotas
 
+- Documentação interativa OpenAPI/Swagger UI: `/docs`
+- Especificação OpenAPI em JSON: `/docs/openapi.json`
+
 | Método | Rota | Acesso | Descrição |
 | --- | --- | --- | --- |
 | GET | `/api/health` | Público | Estado da API |
@@ -25,6 +28,8 @@ Para rodar API e PostgreSQL localmente em containers, use `docker compose up --b
 | GET | `/api/jokes/history` | Token | Lista as piadas salvas pela conta |
 | PATCH | `/api/jokes/:id` | Token | Edita uma piada do próprio mural |
 | DELETE | `/api/jokes/:id` | Token | Exclui uma piada do próprio mural |
+
+Na documentação interativa, use o botão **Authorize** para informar o JWT retornado por `/api/auth/register` ou `/api/auth/login`; assim é possível explorar as rotas protegidas pelo navegador.
 
 As respostas de erro usam JSON no formato `{ "error": "..." }`. O login usa JWT com validade de sete dias. O CRUD completo do mural é separado da geração: gerar não grava nada até a pessoa salvar.
 
