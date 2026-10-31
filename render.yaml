@@ -1,9 +1,10 @@
 services:
   - type: web
     name: piada-deploy-api
-    runtime: node
-    buildCommand: bun install --frozen-lockfile && bunx prisma generate && bun run build
-    startCommand: bunx prisma migrate deploy && bun run start
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production

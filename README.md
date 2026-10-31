@@ -8,7 +8,9 @@ Requer Bun e PostgreSQL. Crie um banco PostgreSQL local, copie `.env.example` pa
 
 ## Publicação no Render
 
-O `render.yaml` configura uma API Node e um PostgreSQL gerenciado. Crie o serviço a partir deste diretório/repositório. Defina `FRONTEND_URL` para o domínio publicado do Static Site. O banco recebe migrações na inicialização.
+O `Dockerfile` empacota a API e o `render.yaml` configura um serviço Docker mais PostgreSQL gerenciado. Crie o serviço a partir deste diretório/repositório. Na primeira publicação, use `http://localhost:5173` em `FRONTEND_URL`; depois de publicar o front-end, troque pelo domínio público dele e redeploye a API. O container aplica as migrações do Prisma antes de iniciar a API.
+
+Para rodar API e PostgreSQL localmente, use `docker compose up --build`. A API fica em `http://localhost:3000`; pare com `docker compose down` (os dados do banco continuam no volume local).
 
 ## Rotas
 
