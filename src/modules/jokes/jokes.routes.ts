@@ -9,6 +9,6 @@ export const jokesRouter = Router();
 jokesRouter.post('/generate', optionalAuth, validateBody(generateSchema), asyncHandler(async (req,res)=>{
   res.status(201).json(await service.generate(req.body,req.user?.id));
 }));
-jokesRouter.get('/history', requireAuth, asyncHandler(async (req,res)=>{
+jokesRouter.get('/history', optionalAuth, requireAuth, asyncHandler(async (req,res)=>{
   res.json(await service.history(req.user!.id));
 }));

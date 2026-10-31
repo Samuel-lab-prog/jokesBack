@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { asyncHandler } from '../../middleware/async-handler.js';
-import { requireAuth } from '../../middleware/auth.js';
+import { optionalAuth, requireAuth } from '../../middleware/auth.js';
 import { validateBody } from '../../middleware/validate.js';
 import { prisma } from '../../config/database.js';
 import { loginSchema, registerSchema } from './auth.schemas.js';
@@ -16,7 +16,7 @@ authRouter.post('/login', validateBody(loginSchema), asyncHandler(async (req, re
   if (!result) { res.status(401).json({ error: 'E-mail ou senha incorretos.' }); return; }
   res.json(result);
 }));
-authRouter.get('/me', requireAuth, asyncHandler(async (req, res) => {
+authRouter.get('/me', optionalAuth, requireAuth, asyncHandler(async (req, res) => {
   const user = await prisma.user.findUnique({ where: { id: req.user!.id }, select: { id: true, name: true, email: true } });
   if (!user) { res.status(401).json({ error: 'Conta não encontrada.' }); return; }
   res.json({ user });

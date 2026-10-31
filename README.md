@@ -4,13 +4,13 @@ API HTTP em TypeScript, organizada por módulos de autenticação e piadas. Este
 
 ## Desenvolvimento
 
-Requer Bun e PostgreSQL. Crie um banco PostgreSQL local, copie `.env.example` para `.env`, ajuste `DATABASE_URL` e defina um `JWT_SECRET` aleatório com pelo menos 32 caracteres. Então rode `bun install`, `bun run db:generate`, `bun run db:migrate:dev` e `bun run dev`.
+Requer Bun e Docker Desktop. Copie `.env.example` para `.env`, rode `bun install`, `docker compose up -d db`, `bun run db:generate`, `bun run db:migrate:dev` e `bun dev`. O servidor de desenvolvimento usa a porta 3001 e o banco do Compose fica na 5434, para evitar conflitos com outros serviços locais. `.env.example` já traz os valores de desenvolvimento para esse banco.
 
 ## Publicação no Render
 
 O `Dockerfile` empacota a API e o `render.yaml` configura um serviço Docker mais PostgreSQL gerenciado. Crie o serviço a partir deste diretório/repositório. Na primeira publicação, use `http://localhost:5173` em `FRONTEND_URL`; depois de publicar o front-end, troque pelo domínio público dele e redeploye a API. O container aplica as migrações do Prisma antes de iniciar a API.
 
-Para rodar API e PostgreSQL localmente, use `docker compose up --build`. A API fica em `http://localhost:3000`; pare com `docker compose down` (os dados do banco continuam no volume local).
+Para rodar API e PostgreSQL localmente em containers, use `docker compose up --build`. A API fica em `http://localhost:3000`; pare com `docker compose down` (os dados do banco continuam no volume local).
 
 ## Rotas
 
