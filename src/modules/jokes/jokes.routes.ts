@@ -1,11 +1,14 @@
 import { Router } from 'express';
 import { asyncHandler } from '../../middleware/async-handler.js';
-import { requireAuth } from '../../middleware/auth.js';
+import { optionalAuth, requireAuth } from '../../middleware/auth.js';
 import { validateBody } from '../../middleware/validate.js';
 import { generateSchema, saveJokeSchema, updateJokeSchema } from './jokes.schemas.js';
 import * as service from './jokes.service.js';
 
 export const jokesRouter = Router();
+
+// Parse the optional bearer token before any protected operation checks req.user.
+jokesRouter.use(optionalAuth);
 
 // Geração é pública e não grava no PostgreSQL até a pessoa decidir salvar.
 jokesRouter.post('/generate', validateBody(generateSchema), asyncHandler(async (req, res) => {
